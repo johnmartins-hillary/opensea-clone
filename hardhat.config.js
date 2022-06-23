@@ -22,15 +22,21 @@ const projectId = "1846bb5edac44abb8e47ebc9badc770c";
 module.exports = {
   networks: {
     hardhat: {
-      chainId: 31337,
+      chainId: 1337,
     },
-    mombai: {
+    mumbai: {
       url: `https://polygon-mumbai.infura.io/v3/${projectId}`,
       accounts: [privteKey],
     },
     mainnet: {
       url: `https://polygon-mainnet.infura.io/v3/${projectId}`,
       accounts: [privteKey],
+    },
+    rinkeby: {
+      url: "https://rinkeby.infura.io/v3/038ad1042d1d40039d7984b808bd3b64",
+      accounts: [
+        "d0e812824c35f9717b1accf8e9da7c243039d1c8c7a4a664991356980f1eb658",
+      ],
     },
   },
   solidity: "0.8.4",
