@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { useEffect, useContext } from "react";
 import Web3Modal from "web3modal";
 import { nftaddress, nftmarketaddress } from "../config";
-import Market from "../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
+import Market from "../utils/NFTMarket.json";
 import { TransactionContext } from "../context/TransactionContext";
 import Welcome from "../components/Welcome";
 import Loader from "../components/Loader";

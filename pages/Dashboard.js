@@ -2,12 +2,11 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Web3Modal from "web3modal";
-import Image from "next/image";
 
 import { nftmarketaddress, nftaddress } from "../config";
 
-import Market from "../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
-import NFT from "../artifacts/contracts/NFT.sol/NFT.json";
+import Market from "../utils/NFTMarket.json";
+import NFT from "../utils/NFT.json";
 
 export default function CreatorDashboard() {
   const [nfts, setNfts] = useState([]);
@@ -57,7 +56,9 @@ export default function CreatorDashboard() {
     setLoadingState("loaded");
   }
   if (loadingState === "loaded" && !nfts.length)
-    return <h1 className="py-10 px-20 text-3xl text-white">No assets created</h1>;
+    return (
+      <h1 className="py-10 px-20 text-3xl text-white">No assets created</h1>
+    );
   return (
     <div>
       <div className="p-4">

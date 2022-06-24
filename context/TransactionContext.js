@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ethers } from "ethers";
 import { nftmarketaddress, nftaddress } from "../config";
-import Market from "../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
-import NFT from "../artifacts/contracts/NFT.sol/NFT.json";
+import Market from "../utils/NFTMarket.json";
+import NFT from "../utils/NFT.json";
 import axios from "axios";
 
 export const TransactionContext = React.createContext();
