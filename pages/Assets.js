@@ -54,22 +54,24 @@ export default function Assets() {
     setLoadingState("loaded");
   }
   if (loadingState === "loaded" && !nfts.length)
-    return <h1 className="py-10 px-20 text-3xl">No assets owned</h1>;
+    return <h1 className="py-10 px-20 text-3xl text-white font-bold">NO ASSETS FOUND</h1>;
   return (
     <div className="flex justify-center">
       <div className="p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {nfts.map((nft, i) => (
             <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <Image
-                src={nft.image}
-                alt="Picture of the author"
-                className="rounded"
-                width={350}
-                height={500}
-                // blurDataURL="data:..." automatically provided
-                // placeholder="blur" // Optional blur-up while loading
-              />
+              <div className="bg-pink-500   p-5">
+                <div className="rounded-sm border-4 border-pink-400">
+                  <img
+                    src={nft.image}
+                    alt="Picture of the author"
+                    className="w-full h-full object-contain"
+                    // blurDataURL="data:..." automatically provided
+                    // placeholder="blur" // Optional blur-up while loading
+                  />
+                </div>
+              </div>
               <div className="p-4 bg-black">
                 <p className="text-2xl font-bold text-white">
                   Price - {nft.price} ETH

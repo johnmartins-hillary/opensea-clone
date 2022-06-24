@@ -1,21 +1,23 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 function Navbar() {
-  const [activeLink, setActiveLink] = useState("home");
+  const router = useRouter();
+  const activeLink = router.pathname;
 
-  const activeLinkStyle = "text-pink-500";
+
+  const activeLinkStyle = "text-yellow-500";
 
   return (
-    <nav className=" md:flex items-center justify-between border-b md:p-6 p-2 gradient-bg-welcome">
-      <p className="text-4xl font-bold text-pink-500 logo">GOLDMINE</p>
+    <nav className=" md:flex items-center justify-between border-b md:p-6 p-2">
+      <p className="text-4xl font-bold  text-yellow-500 logo">GOLDMINE</p>
       <div className="flex mt-4">
         <Link href="/">
           <a
             className={`mr-4 md:mr-4 text-white font-bold text-md uppercase ${
-              activeLink === "home" && activeLinkStyle
+              activeLink === "/" && activeLinkStyle
             }`}
-            onClick={() => setActiveLink("home")}
           >
             Home
           </a>
@@ -23,9 +25,8 @@ function Navbar() {
         <Link href="/CreateItem">
           <a
             className={`mr-4 md:mr-6 text-white font-bold text-md uppercase ${
-              activeLink === "sell" && activeLinkStyle
+              activeLink === "/CreateItem" && activeLinkStyle
             }`}
-            onClick={() => setActiveLink("sell")}
           >
             Sell NFT
           </a>
@@ -33,9 +34,8 @@ function Navbar() {
         <Link href="/Assets">
           <a
             className={`mr-4 md:mr-6 text-white font-bold text-md uppercase ${
-              activeLink === "assets" && activeLinkStyle
+              activeLink === "/Assets" && activeLinkStyle
             }`}
-            onClick={() => setActiveLink("assets")}
           >
             My NFT
           </a>
@@ -43,9 +43,8 @@ function Navbar() {
         <Link href="/Dashboard">
           <a
             className={`mr-4 md:mr-6 text-white font-bold text-md uppercase ${
-              activeLink === "dashboard" && activeLinkStyle
+              activeLink === "/Dashboard" && activeLinkStyle
             }`}
-            onClick={() => setActiveLink("dashboard")}
           >
             Dashboard
           </a>

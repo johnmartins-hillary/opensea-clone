@@ -76,8 +76,6 @@ export default function CreateItem() {
     //get the tokenId from the transaction that occured above
     //there events array that is returned, the first item from that event
     //is the event, third item is the token id.
-    console.log("Transaction: ", tx);
-    console.log("Transaction events: ", tx.events[0]);
     let event = tx.events[0];
     let value = event.args[2];
     let tokenId = value.toNumber(); //we need to convert it a number
@@ -101,31 +99,37 @@ export default function CreateItem() {
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="w-1/2 flex flex-col pb-12">
+    <div className="flex justify-center w-auto">
+      <div className="md:w-1/2 w-10/12 flex flex-col pb-12">
         <input
           placeholder="Asset Name"
-          className="mt-8 border rounded p-4"
+          className="mt-8 border rounded p-4 text-grey-500"
           onChange={(e) =>
             updateFormInput({ ...formInput, name: e.target.value })
           }
         />
         <textarea
           placeholder="Asset description"
-          className="mt-2 border rounded p-4"
+          className="mt-2 border rounded p-4 text-grey-500"
           onChange={(e) =>
             updateFormInput({ ...formInput, description: e.target.value })
           }
         />
         <input
           placeholder="Asset Price in Eth"
-          className="mt-8 border rounded p-4"
+          className="mt-8 border rounded p-4 text-grey-500"
           type="number"
           onChange={(e) =>
             updateFormInput({ ...formInput, price: e.target.value })
           }
         />
-        <input type="file" name="Asset" className="my-4" onChange={onChange} />
+        <input
+          type="file"
+          accepts="images/*"
+          name="Asset"
+          className="my-4"
+          onChange={onChange}
+        />
         {fileUrl && (
           <Image
             src={fileUrl}

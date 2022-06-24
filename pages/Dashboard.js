@@ -9,7 +9,7 @@ import { nftmarketaddress, nftaddress } from "../config";
 import Market from "../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json";
 
-export default function Dashboard() {
+export default function CreatorDashboard() {
   const [nfts, setNfts] = useState([]);
   const [sold, setSold] = useState([]);
   const [loadingState, setLoadingState] = useState("not-loaded");
@@ -57,24 +57,25 @@ export default function Dashboard() {
     setLoadingState("loaded");
   }
   if (loadingState === "loaded" && !nfts.length)
-    return <h1 className="py-10 px-20 text-3xl">No assets created</h1>;
+    return <h1 className="py-10 px-20 text-3xl text-white">No assets created</h1>;
   return (
     <div>
       <div className="p-4">
-        <h2 className="text-2xl py-2">Items Created</h2>
+        <h2 className="text-2xl py-2 text-white font-bold">ITEMS CREATED</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {nfts.map((nft, i) => (
-            <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <Image
-                src={nft.image}
-                alt="Picture of the author"
-                className="rounded"
-                width={250}
-                height={300}
-                // blurDataURL="data:..." automatically provided
-                // placeholder="blur" // Optional blur-up while loading
-              />
-
+            <div key={i} className=" shadow rounded-xl overflow-hidden">
+              <div className="bg-pink-500   p-5">
+                <div className="rounded-sm border-4 border-pink-400">
+                  <img
+                    src={nft.image}
+                    alt="Picture of the author"
+                    className="w-full h-full object-contain"
+                    // blurDataURL="data:..." automatically provided
+                    // placeholder="blur" // Optional blur-up while loading
+                  />
+                </div>
+              </div>
               <div className="p-4 bg-black">
                 <p className="text-2xl font-bold text-white">
                   Price - {nft.price} Eth
@@ -87,14 +88,24 @@ export default function Dashboard() {
       <div className="px-4">
         {Boolean(sold.length) && (
           <div>
-            <h2 className="text-2xl py-2">Items sold</h2>
+            <h2 className="text-2xl py-2 text-white font-bold">ITEMS SOLD</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
               {sold.map((nft, i) => (
                 <div
                   key={i}
                   className="border shadow rounded-xl overflow-hidden"
                 >
-                  <img src={nft.image} className="rounded" />
+                  <div className="bg-pink-500   p-5">
+                    <div className="rounded-sm border-4 border-pink-400">
+                      <img
+                        src={nft.image}
+                        alt="Picture of the author"
+                        className="w-full h-full object-contain"
+                        // blurDataURL="data:..." automatically provided
+                        // placeholder="blur" // Optional blur-up while loading
+                      />
+                    </div>
+                  </div>
                   <div className="p-4 bg-black">
                     <p className="text-2xl font-bold text-white">
                       Price - {nft.price} Eth

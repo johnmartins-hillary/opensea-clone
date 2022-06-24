@@ -1,57 +1,14 @@
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useContext } from "react";
 import Web3Modal from "web3modal";
 import { nftaddress, nftmarketaddress } from "../config";
-import NFT from "../artifacts/contracts/NFT.sol/NFT.json";
 import Market from "../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
-import Image from "next/image";
+import { TransactionContext } from "../context/TransactionContext";
+import Welcome from "../components/Welcome";
+import Loader from "../components/Loader";
 
 export default function Home() {
-  const [nfts, setNfts] = useState([]);
-  const [loadingState, setLoadingState] = useState("not-loaded");
-
-  useEffect(() => {
-    loadNFTs();
-  }, []);
-
-  async function loadNFTs() {
-    const provider = new ethers.providers.JsonRpcProvider(
-      "https://rinkeby.infura.io/v3/038ad1042d1d40039d7984b808bd3b64"
-    );
-    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider);
-    const marketContract = new ethers.Contract(
-      nftmarketaddress,
-      Market.abi,
-      provider
-    );
-
-    const PRICe = marketContract.listingPrice;
-
-    //return an array of unsold market items
-    const data = await marketContract.fetchMarketItems();
-
-    const items = await Promise.all(
-      data.map(async (i) => {
-        const tokenUri = await tokenContract.tokenURI(i.tokenId);
-        const meta = await axios.get(tokenUri);
-        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
-        let item = {
-          price,
-          tokenId: i.tokenId.toNumber(),
-          seller: i.seller,
-          owner: i.owner,
-          image: meta.data.image,
-          name: meta.data.name,
-          description: meta.data.description,
-        };
-        return item;
-      })
-    );
-
-    setNfts(items);
-    setLoadingState("loaded");
-  }
+  const { nfts, loadingState, loadNFTs } = useContext(TransactionContext);
 
   async function buyNFT(nft) {
     const web3Modal = new Web3Modal();
@@ -78,45 +35,60 @@ export default function Home() {
     loadNFTs();
   }
 
+  useEffect(() => {
+    loadNFTs();
+  }, []);
+
   if (loadingState === "loaded" && !nfts.length)
-    return <h1 className="px-20 py-10 text-3xl">No items in market place</h1>;
+    return (
+      <h1 className="px-20 py-10 text-3xl font-bold">
+        NO ITEMS IN THE MARKET PLACE
+      </h1>
+    );
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col justify-center mb-10">
+      <Welcome />
       <div className="px-4" style={{ maxWidth: "1600px" }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 m-4">
-          {nfts.map((nft, i) => (
-            <div key={i} className="border bg-white shadow-xl rounded-xl overflow-hidden">
-              <Image
-                src={nft.image}
-                alt="Picture of the author"
-                width={250}
-                height={250}
-                // blurDataURL="data:..." automatically provided
-                // placeholder="blur" // Optional blur-up while loading
-              />
-              <div className="p-2">
-                <p className="text-grey-500 text-2xl font-semibold w-full my-2">
-                  {nft.name}
-                </p>
-                <div>
-                  <p className="text-grey-300 w-full my-2">{nft.description}</p>
+        {!nfts.length ? (
+          <Loader />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-4 m-4 ">
+            {nfts.map((nft, i) => (
+              <div key={i} className="shadow-md rounded-md relative">
+                <div className="bg-pink-500 rounded-t-md  p-5">
+                  <div className="rounded-sm border-4 border-pink-400">
+                    <img
+                      src={nft.image}
+                      alt="Picture of the author"
+                      className="w-full h-full object-contain"
+                      // blurDataURL="data:..." automatically provided
+                      // placeholder="blur" // Optional blur-up while loading
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="p-4 bg-black">
-                <p className=" text-2xl mb-2 font-bold text-white">
-                  {nft.price} ETH
-                </p>
+                <div className="p-2 text-black bg-purple-500 rounded-b-md flex-grow font-bold">
+                  <p className="text-grey-500 text-2xl font-semibold w-full my-2">
+                    {nft.name}
+                  </p>
+                  <div>
+                    <p className="text-grey-300 w-full my-2">
+                      {nft.description}
+                    </p>
+                  </div>
+                </div>
                 <button
-                  className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
+                  className="flex items-center justify-center  w-8/12 bg-pink-500 text-yellow-300 font-bold py-2 px-12 md:px-6 rounded-full absolute -bottom-5 z-50 right-2"
                   onClick={() => buyNFT(nft)}
                 >
-                  Buy NFT
+                  <p className=" text-md mb-2 font-bold text-yellow-300">
+                    {nft.price} ETH
+                  </p>
                 </button>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
