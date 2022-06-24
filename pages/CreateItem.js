@@ -9,7 +9,6 @@ const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0");
 import { nftaddress, nftmarketaddress } from "../config";
 import NFT from "../utils/NFT.json";
 import Market from "../utils/NFTMarket.json";
-import Image from "next/Image";
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null);
@@ -130,15 +129,15 @@ export default function CreateItem() {
           onChange={onChange}
         />
         {fileUrl && (
-          <Image
-            src={fileUrl}
-            alt="Picture of the author"
-            className="rounded mt-4"
-            width={350}
-            height={500}
-            // blurDataURL="data:..." automatically provided
-            // placeholder="blur" // Optional blur-up while loading
-          />
+          <div className="rounded-sm border-4 border-pink-400">
+            <img
+              src={nft.image}
+              alt="Picture of the author"
+              className="w-full h-full object-contain"
+              // blurDataURL="data:..." automatically provided
+              // placeholder="blur" // Optional blur-up while loading
+            />
+          </div>
         )}
         <button
           onClick={createItem}
